@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Automated Social Media Post Generator — create stunning text and image posts instantly.">
+    <title>PostForge — Automated Post Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <!-- Animated background blobs -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>PostForge</h1>
+            </div>
+            <p class="tagline">Generate stunning social media posts in seconds</p>
+            <span class="model-badge">Powered by GPT-5.2</span>
+        </header>
+
+        <main class="main-grid">
+            <!-- ======================== Left Panel — Controls ======================== -->
+            <section class="panel controls-panel" id="controlsPanel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">✍️</span> Create Post
+                </h2>
+
+                <!-- Prompt -->
+                <div class="field-group">
+                    <label for="promptInput">Your Prompt</label>
+                    <textarea id="promptInput" rows="4" placeholder="Type your post content here…"></textarea>
+                </div>
+
+                <!-- Platform -->
+                <div class="field-group">
+                    <label for="platformSelect">Platform</label>
+                    <select id="platformSelect">
+                        <option value="general">🌐 General</option>
+                        <option value="twitter">🐦 Twitter / X</option>
+                        <option value="instagram">📸 Instagram</option>
+                        <option value="linkedin">💼 LinkedIn</option>
+                        <option value="facebook">📘 Facebook</option>
+                    </select>
+                </div>
+
+                <!-- Variations count -->
+                <div class="field-group">
+                    <label for="countInput">Number of Variations</label>
+                    <div class="count-selector">
+                        <button class="count-btn" id="countMinus">−</button>
+                        <span class="count-value" id="countValue">1</span>
+                        <button class="count-btn" id="countPlus">+</button>
+                    </div>
+                </div>
+
+                <!-- Post type toggle -->
+                <div class="field-group">
+                    <label>Post Type</label>
+                    <div class="toggle-group" id="postTypeToggle">
+                        <button class="toggle-btn active" data-type="text" id="btnText">
+                            <span>📝</span> Text Only
+                        </button>
+                        <button class="toggle-btn" data-type="image" id="btnImage">
+                            <span>🖼️</span> Image Post
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Style controls (visible for image posts) -->
+                <div class="style-controls" id="styleControls">
+                    <h3 class="sub-title">Style Options</h3>
+
+                    <div class="field-row">
+                        <div class="field-group half">
+                            <label for="fontSize">Font Size</label>
+                            <input type="range" id="fontSize" min="20" max="120" value="48">
+                            <span class="range-value" id="fontSizeValue">48px</span>
+                        </div>
+                        <div class="field-group half">
+                            <label for="textColor">Text Color</label>
+                            <input type="color" id="textColor" value="#FFFFFF">
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field-group half">
+                            <label for="alignment">Alignment</label>
+                            <select id="alignment">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <div class="field-group half">
+                            <label for="bgColor">Bg Color</label>
+                            <input type="color" id="bgColor" value="#1a1a2e">
+                        </div>
+                    </div>
+
+                    <!-- Gradient toggle -->
+                    <div class="field-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="gradientToggle">
+                            <span class="checkmark"></span>
+                            Use Gradient Background
+                        </label>
+                    </div>
+
+                    <div class="field-row gradient-row" id="gradientRow">
+                        <div class="field-group half">
+                            <label for="gradientStart">Start</label>
+                            <input type="color" id="gradientStart" value="#0f0c29">
+                        </div>
+                        <div class="field-group half">
+                            <label for="gradientEnd">End</label>
+                            <input type="color" id="gradientEnd" value="#302b63">
+                        </div>
+                    </div>
+
+                    <!-- Dimensions -->
+                    <div class="field-row">
+                        <div class="field-group half">
+                            <label for="imgWidth">Width</label>
+                            <input type="number" id="imgWidth" value="1080" min="200" max="4000">
+                        </div>
+                        <div class="field-group half">
+                            <label for="imgHeight">Height</label>
+                            <input type="number" id="imgHeight" value="1080" min="200" max="4000">
+                        </div>
+                    </div>
+
+                    <!-- Background image upload -->
+                    <div class="field-group">
+                        <label for="bgImageUpload">Background Image (optional)</label>
+                        <div class="file-upload" id="fileUploadZone">
+                            <input type="file" id="bgImageUpload" accept="image/*" hidden>
+                            <p class="upload-text">📁 Click or drag to upload</p>
+                            <p class="file-name" id="fileName"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate button -->
+                <button class="btn-generate" id="generateBtn">
+                    <span class="btn-icon">🚀</span>
+                    <span>Generate Post</span>
+                </button>
+            </section>
+
+            <!-- ======================== Right Panel — Preview ======================== -->
+            <section class="panel preview-panel" id="previewPanel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">👁️</span> Preview
+                </h2>
+
+                <div class="preview-container" id="previewContainer">
+                    <div class="empty-state" id="emptyState">
+                        <span class="empty-icon">✨</span>
+                        <p>Your post preview will appear here</p>
+                    </div>
+
+                    <!-- Carousel wrapper -->
+                    <div class="carousel" id="carousel" style="display:none;">
+                        <div class="carousel-track" id="carouselTrack"></div>
+                        <button class="carousel-arrow carousel-prev" id="carouselPrev">‹</button>
+                        <button class="carousel-arrow carousel-next" id="carouselNext">›</button>
+                        <div class="carousel-counter" id="carouselCounter"></div>
+                    </div>
+                </div>
+
+                <!-- Download button -->
+                <button class="btn-download" id="downloadBtn" style="display:none;">
+                    <span>⬇️</span> Download Image
+                </button>
+
+                <!-- Copy button for text -->
+                <button class="btn-download btn-copy" id="copyBtn" style="display:none;">
+                    <span>📋</span> Copy Text
+                </button>
+
+                <!-- Publish buttons (shown after generation if connected) -->
+                <div class="publish-section" id="publishSection" style="display:none;">
+                    <h3 class="sub-title">Publish To</h3>
+                    <div class="publish-buttons">
+                        <button class="btn-publish btn-linkedin" id="publishLinkedin" style="display:none;">
+                            <span>💼</span> Publish to LinkedIn
+                        </button>
+                        <button class="btn-publish btn-facebook" id="publishFacebook" style="display:none;">
+                            <span>📘</span> Publish to Facebook
+                        </button>
+                        <button class="btn-publish btn-instagram" id="publishInstagram" style="display:none;">
+                            <span>📸</span> Publish to Instagram
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================== Connected Accounts ======================== -->
+            <section class="panel accounts-panel" id="accountsPanel">
+                <h2 class="panel-title">
+                    <span class="panel-icon">🔗</span> Connected Accounts
+                </h2>
+
+                <div class="account-list">
+                    <div class="account-item" id="accountLinkedin">
+                        <div class="account-info">
+                            <span class="account-icon linkedin-icon">💼</span>
+                            <span class="account-name">LinkedIn</span>
+                            <span class="status-dot" id="statusLinkedin"></span>
+                        </div>
+                        <button class="btn-connect btn-connect-linkedin" id="connectLinkedin">Connect</button>
+                    </div>
+
+                    <div class="account-item" id="accountFacebook">
+                        <div class="account-info">
+                            <span class="account-icon facebook-icon">📘</span>
+                            <span class="account-name">Facebook</span>
+                            <span class="status-dot" id="statusFacebook"></span>
+                        </div>
+                        <button class="btn-connect btn-connect-facebook" id="connectFacebook">Connect</button>
+                    </div>
+
+                    <div class="account-item" id="accountInstagram">
+                        <div class="account-info">
+                            <span class="account-icon instagram-icon">📸</span>
+                            <span class="account-name">Instagram</span>
+                            <span class="status-dot" id="statusInstagram"></span>
+                        </div>
+                        <button class="btn-connect btn-connect-instagram" id="connectInstagram">Connect</button>
+                    </div>
+                </div>
+
+                <p class="accounts-hint">Connect your accounts to publish posts directly</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Generating your post…</p>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

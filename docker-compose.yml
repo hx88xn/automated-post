@@ -1,0 +1,13 @@
+services:
+  postforge:
+    build: .
+    ports:
+      - "7001:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:7001}
+      - LINKEDIN_CLIENT_ID=${LINKEDIN_CLIENT_ID}
+      - LINKEDIN_CLIENT_SECRET=${LINKEDIN_CLIENT_SECRET}
+      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+    restart: unless-stopped
