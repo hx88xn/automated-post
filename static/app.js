@@ -1,5 +1,5 @@
 /* ============================================================
-   PostForge — Client-side logic
+   postify — Client-side logic
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
